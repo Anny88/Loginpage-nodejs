@@ -1,0 +1,17 @@
+{
+  "name": "projects",
+  "version": "1.0.0",
+  "description": "Login page on node\u001b[D\u001b[D",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect": "^3.6.6",
+    "express": "^4.16.3",
+    "mysql": "^2.15.0"
+  }
+}

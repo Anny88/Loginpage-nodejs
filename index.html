@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+      
+    <style type="text/css">
+        .header{  
+            border-bottom: 2px solid #ff6f00;
+            padding-bottom: 2rem;
+            padding-top: 2rem;
+            background-color: #fff;
+            margin-bottom: 5rem;
+            text-align: center; 
+            margin-top: none;
+            
+        }
+
+        .head-item{
+            font-size: 2rem;
+            color: #494949;
+            padding: 1rem;
+            text-decoration: none;	
+            border: 1px solid #494949;
+            margin-right: 3rem;
+        }
+        .head-item:hover {
+            background-color: #ffa040;
+            color: white;
+            text-decoration: none;
+            border: none;
+        }
+        body{
+            background-color: #cccccc;
+        }        
+
+        #reset{
+            display: none;
+        }
+        .center {
+            text-align: center; 
+        }
+     </style>
+             
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function () {
+            $('#user-submit').click(function () {
+                var text = $('#user-name').val();
+                var payload = {
+                        name: $('#user-name').val()
+                    };
+                if (text == "") {
+                    $('#output').html("<i>Dieses feld darf nicht leer sein!</i>");
+                    $('#output').css('color', '#e53935');
+                }
+                else{ 
+                    $.ajax({
+                        url: "/users",
+                        type: "POST",
+                        contentType: "application/json",
+                        processData: false,
+                        data: JSON.stringify(payload),
+                        complete: function (data) {
+
+                            if (data.responseText == "0"){
+                                $('#output').html("Nutzer <b>" + text + "</b> wurde nicht gefunden");
+                                $('#output').css('color', '#e53935');
+                            }
+                            else {
+                                $('#output').html("Nutzer <b>" + data.responseText + "</b> hat sich erfolgreich angemeldet!");
+                                $('#output').css('color', '#494949');
+                                $('#user-submit').hide(1000);
+                                $('#reset').show(1000);
+                                
+                                
+                            }
+                        }
+                    });
+                }
+            });
+            
+            $('#reset').click(function () {
+                $('#reset').hide(1000);
+                $('#user-submit').show(1000);
+                $('#output').text("");
+                $('#user-name').val("");
+            });
+        });
+    </script>
+  </head>
+    
+  <body>
+    <div class="header">
+        <a class="head-item" href="localhost:3000/users">Register</a>
+        <a class="head-item" href="#">Log in</a>
+    </div>  
+    <div class = "row center">
+        <div class = "jumbotron col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
+            <h3>Enter your username to log in</h3><br>
+            <input class = "form-control" id="user-name"   type="text" /> <br>
+            <input class = "btn btn-warning center" id="user-submit" type="submit" value = "Log in"/> 
+            <input class = "btn btn-danger center"  id="reset"       type="submit" value = "Log out"/> <br> <br> <br>
+            <p id="output"></p>
+            
+        </div>
+    </div>
+    
+  </body>
+</html>
